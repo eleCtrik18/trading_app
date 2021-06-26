@@ -75,6 +75,9 @@ class _MyCustomUIState extends State<MyCustomUI>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
+                          child: searchBar(),
+                        ),
+                        Container(
                           width: _w / 1.16,
                           height: _w / 1.8,
                           decoration: BoxDecoration(
@@ -115,7 +118,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      ('Dog'),
+                                      ('Dog ${index + 1}'),
                                       textScaleFactor: 1.4,
                                       maxLines: 1,
                                       softWrap: true,
