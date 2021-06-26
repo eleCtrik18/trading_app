@@ -1,6 +1,11 @@
+// @dart=2.9
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trading_app/user_info.dart';
+import 'package:http/http.dart' as http;
 
 class MyCustomUI extends StatefulWidget {
   @override
@@ -9,12 +14,22 @@ class MyCustomUI extends StatefulWidget {
 
 class _MyCustomUIState extends State<MyCustomUI>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  // ignore: deprecated_member_use
+  List<String> dogImages = new List();
+  ScrollController _scrollController = new ScrollController();
+  AnimationController _controller;
+  Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
+    fetchfive();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        fetchfive();
+      }
+    });
 
     _controller = AnimationController(
       vsync: this,
@@ -33,8 +48,12 @@ class _MyCustomUIState extends State<MyCustomUI>
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
+
+  String title;
+  String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -43,72 +62,185 @@ class _MyCustomUIState extends State<MyCustomUI>
       backgroundColor: Color(0xffF5F5F5),
       body: Stack(
         children: [
-          ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              searchBar(),
-              SizedBox(height: _w / 20),
-              groupOfCards(
-                  'Item 1',
-                  'Sub info',
-                  'assets/event.png',
-                  RouteWhereYouGo(),
-                  'Item 2',
-                  'Sub info',
-                  'assets/event.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Item 3',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Item 4',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Item 5',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Item 6',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Item 7',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Item 8',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Item 9',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Item 10',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Item 11',
-                  'Sub info',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Item 12',
-                  'Sub info',
-                  'assets/event.png',
-                  RouteWhereYouGo()),
-            ],
-          ),
+          ListView.builder(
+              controller: _scrollController,
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              itemCount: dogImages.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
+
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: _w / 1.16,
+                          height: _w / 1.8,
+                          decoration: BoxDecoration(
+                            color: Color(0xffFFE5B4),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(.05),
+                                  blurRadius: 90,
+                                  offset: Offset(2, 2)),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: _w / 1.16,
+                                height: _w / 2.6,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff5C71F3),
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                ),
+                                child: Image.network(dogImages[index],
+                                    fit: BoxFit.cover,
+                                    width: _w / 1.36,
+                                    height: _w / 2.6),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                height: _w / 6.2,
+                                width: _w / 2.36,
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: _w / 25),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ('Dog'),
+                                      textScaleFactor: 1.4,
+                                      maxLines: 1,
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.black.withOpacity(.8),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      ('Subtitle'),
+                                      textScaleFactor: 1,
+                                      maxLines: 1,
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black.withOpacity(.7),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                  // child: Image.network(
+                  //   dogImages[index],
+                  //   fit: BoxFit.fitWidth,
+                  // ),
+                );
+              }
+
+              // searchBar(),
+              // SizedBox(height: _w / 20)
+              // groupOfCards(
+              //   'Item 1',
+              //   'Sub info',
+              //   'assets/event.png',
+              //   RouteWhereYouGo(),
+              //   // 'Item 2',
+              //   // 'Sub info',
+              //   // 'assets/event.png',
+              //   // RouteWhereYouGo()
+              // ),
+              // groupOfCards(
+              //   'Item 2',
+              //   'Sub info',
+              //   'assets/event.png',
+              //   RouteWhereYouGo(),
+              //   // 'Item 4',
+              //   // 'Sub info',
+              //   // 'assets/event.png',
+              //   // RouteWhereYouGo()
+              // ),
+              // groupOfCards(
+              //   'Item 3',
+              //   'Sub info',
+              //   'assets/event.png',
+              //   RouteWhereYouGo(),
+              //   // 'Item 6',
+              //   // 'Sub info',
+              //   // 'assets/event.png',
+              //   // RouteWhereYouGo()
+              // ),
+              // groupOfCards(
+              //   'Item 4',
+              //   'Sub info',
+              //   'assets/event.png',
+              //   RouteWhereYouGo(),
+              //   // 'Item 8',
+              //   // 'Sub info',
+              //   // 'assets/event.png',
+              //   // RouteWhereYouGo()
+              // ),
+              // groupOfCards(
+              //   'Item 5',
+              //   'Sub info',
+              //   'assets/event.png',
+              //   RouteWhereYouGo(),
+              //   // 'Item 10',
+              //   // 'Sub info',
+              //   // 'assets/event.png',
+
+              //   // RouteWhereYouGo()
+              // ),
+              // groupOfCards(
+              //   'Item 6',
+              //   'Sub info',
+              //   'assets/event.png',
+              //   RouteWhereYouGo(),
+              //   // 'Item 12',
+              //   // 'Sub info',
+              //   // 'assets/event.png',
+              //   // RouteWhereYouGo()
+              // ),
+
+              ),
           settingIcon(),
         ],
       ),
     );
+  }
+
+  fetch() async {
+    var url = Uri.parse('https://dog.ceo/api/breeds/image/random');
+    http.Response response = await http.get(url);
+    try {
+      if (response.statusCode == 200) {
+        setState(() {
+          dogImages.add(jsonDecode(response.body)['message']);
+        });
+      } else {
+        return 'failed';
+      }
+    } catch (e) {
+      return 'failed';
+    }
+  }
+
+  fetchfive() {
+    for (int i = 0; i < 3; i++) {
+      fetch();
+    }
   }
 
   Widget settingIcon() {
@@ -211,22 +343,18 @@ class _MyCustomUIState extends State<MyCustomUI>
   }
 
   Widget groupOfCards(
-      String title1,
-      String subtitle1,
-      String image1,
-      Widget route1,
-      String title2,
-      String subtitle2,
-      String image2,
-      Widget route2) {
+    String title1,
+    String subtitle1,
+    String image1,
+    Widget route1,
+  ) {
     double _w = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           card(title1, subtitle1, image1, route1),
-          card(title2, subtitle2, image2, route2),
         ],
       ),
     );
@@ -244,19 +372,22 @@ class _MyCustomUIState extends State<MyCustomUI>
               .push(MyFadeRoute(route: route, page: RouteWhereYouGo()));
         },
         child: Container(
-          width: _w / 2.36,
+          width: _w / 1.16,
           height: _w / 1.8,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xffFFE5B4),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(.05), blurRadius: 50),
+              BoxShadow(
+                  color: Colors.black.withOpacity(.05),
+                  blurRadius: 90,
+                  offset: Offset(2, 2)),
             ],
           ),
           child: Column(
             children: [
               Container(
-                width: _w / 2.36,
+                width: _w / 1.16,
                 height: _w / 2.6,
                 decoration: BoxDecoration(
                   color: Color(0xff5C71F3),
@@ -264,20 +395,12 @@ class _MyCustomUIState extends State<MyCustomUI>
                     top: Radius.circular(20),
                   ),
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Image',
-                  textScaleFactor: 1.2,
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: Image.asset(image,
+                    fit: BoxFit.cover, width: _w / 1.36, height: _w / 2.6),
               ),
-              // Image.asset(
-              //   image,
-              //   fit: BoxFit.cover,
-              //   width: _w / 2.36,
-              //   height: _w / 2.6),
               Container(
-                height: _w / 6,
+                alignment: Alignment.center,
+                height: _w / 6.2,
                 width: _w / 2.36,
                 padding: EdgeInsets.symmetric(horizontal: _w / 25),
                 child: Column(
@@ -321,7 +444,7 @@ class MyFadeRoute extends PageRouteBuilder {
   final Widget page;
   final Widget route;
 
-  MyFadeRoute({required this.page, required this.route})
+  MyFadeRoute({this.page, this.route})
       : super(
           pageBuilder: (
             BuildContext context,
