@@ -59,6 +59,7 @@ class _MyCustomUIState extends State<MyCustomUI>
   Widget build(BuildContext context) {
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: appBar(),
       backgroundColor: Color(0xffF5F5F5),
       body: Stack(
         children: [
@@ -71,81 +72,81 @@ class _MyCustomUIState extends State<MyCustomUI>
                 return Container(
                   padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
 
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: searchBar(),
-                        ),
-                        Container(
-                          width: _w / 1.16,
-                          height: _w / 1.8,
-                          decoration: BoxDecoration(
-                            color: Color(0xffFFE5B4),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(.05),
-                                  blurRadius: 90,
-                                  offset: Offset(2, 2)),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: _w / 1.16,
-                                height: _w / 2.6,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff5C71F3),
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20),
+                  child: Container(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: _w / 1.16,
+                            height: _w / 1.8,
+                            decoration: BoxDecoration(
+                              color: Color(0xffFFE5B4),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(.05),
+                                    blurRadius: 90,
+                                    offset: Offset(2, 2)),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: _w / 1.16,
+                                  height: _w / 2.6,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff5C71F3),
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Image.network(dogImages[index],
+                                      fit: BoxFit.cover,
+                                      width: _w / 1.36,
+                                      height: _w / 2.6),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: _w / 6.2,
+                                  width: _w / 2.36,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: _w / 25),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        ('Dog ${index + 1}'),
+                                        textScaleFactor: 1.4,
+                                        maxLines: 1,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: Colors.black.withOpacity(.8),
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        ('Subtitle'),
+                                        textScaleFactor: 1,
+                                        maxLines: 1,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black.withOpacity(.7),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                child: Image.network(dogImages[index],
-                                    fit: BoxFit.cover,
-                                    width: _w / 1.36,
-                                    height: _w / 2.6),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                height: _w / 6.2,
-                                width: _w / 2.36,
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: _w / 25),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      ('Dog ${index + 1}'),
-                                      textScaleFactor: 1.4,
-                                      maxLines: 1,
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.black.withOpacity(.8),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Text(
-                                      ('Subtitle'),
-                                      textScaleFactor: 1,
-                                      maxLines: 1,
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black.withOpacity(.7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ]),
+                        ]),
+                  ),
                   // child: Image.network(
                   //   dogImages[index],
                   //   fit: BoxFit.fitWidth,
@@ -218,7 +219,6 @@ class _MyCustomUIState extends State<MyCustomUI>
               // ),
 
               ),
-          settingIcon(),
         ],
       ),
     );
@@ -282,6 +282,49 @@ class _MyCustomUIState extends State<MyCustomUI>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget appBar() {
+    double _w = MediaQuery.of(context).size.width;
+    return PreferredSize(
+      preferredSize: Size(double.infinity, kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        child: AppBar(
+          brightness: Brightness.light,
+          backgroundColor: Colors.white.withOpacity(.5),
+          elevation: 0,
+          title: Text(
+            '  Your App\'s name',
+            style: TextStyle(
+              fontSize: _w / 17,
+              color: Colors.black.withOpacity(.7),
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          actions: [
+            IconButton(
+              tooltip: 'Settings',
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return RouteWhereYouGo();
+                    },
+                  ),
+                );
+              },
+            ),
+            Text('  '),
+          ],
+        ),
       ),
     );
   }
