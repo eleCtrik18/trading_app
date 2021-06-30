@@ -60,6 +60,7 @@ class _MyCustomUIState extends State<MyCustomUI>
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: appBar(),
+      drawer: Drawer(),
       backgroundColor: Color(0xffF5F5F5),
       body: Stack(
         children: [
@@ -70,15 +71,20 @@ class _MyCustomUIState extends State<MyCustomUI>
               itemCount: dogImages.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
+                  padding:
+                      EdgeInsets.fromLTRB(_w / 20, _w / 5, _w / 20, _w / 20),
 
                   child: Container(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                                _w / 20, 0, _w / 20, _w / 20),
+                          ),
                           Container(
                             width: _w / 1.16,
-                            height: _w / 1.8,
+                            height: _w / 0.7,
                             decoration: BoxDecoration(
                               color: Color(0xffFFE5B4),
                               borderRadius: BorderRadius.circular(20),
@@ -92,8 +98,8 @@ class _MyCustomUIState extends State<MyCustomUI>
                             child: Column(
                               children: [
                                 Container(
-                                  width: _w / 1.16,
-                                  height: _w / 2.6,
+                                  width: _w / 0.16,
+                                  height: _w / 1.6,
                                   decoration: BoxDecoration(
                                     color: Color(0xff5C71F3),
                                     borderRadius: BorderRadius.vertical(
@@ -106,7 +112,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                                       height: _w / 2.6),
                                 ),
                                 Container(
-                                  alignment: Alignment.center,
+                                  alignment: Alignment.bottomCenter,
                                   height: _w / 6.2,
                                   width: _w / 2.36,
                                   padding:
@@ -129,11 +135,10 @@ class _MyCustomUIState extends State<MyCustomUI>
                                         ),
                                       ),
                                       Text(
-                                        ('Subtitle'),
+                                        ('SubInfo'),
                                         textScaleFactor: 1,
                                         maxLines: 1,
                                         softWrap: true,
-                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black.withOpacity(.7),
@@ -219,6 +224,10 @@ class _MyCustomUIState extends State<MyCustomUI>
               // ),
 
               ),
+          Container(
+            alignment: Alignment.center,
+            child: searchBar(),
+          ),
         ],
       ),
     );
@@ -294,29 +303,30 @@ class _MyCustomUIState extends State<MyCustomUI>
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         child: AppBar(
           brightness: Brightness.light,
-          backgroundColor: Colors.white.withOpacity(.5),
+          backgroundColor: Colors.green.withOpacity(.5),
           elevation: 0,
           title: Text(
-            '  Your App\'s name',
+            ' Trading App',
             style: TextStyle(
               fontSize: _w / 17,
               color: Colors.black.withOpacity(.7),
               fontWeight: FontWeight.w400,
             ),
           ),
+          centerTitle: true,
           actions: [
             IconButton(
-              tooltip: 'Settings',
+              tooltip: 'User',
               splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
+              highlightColor: Colors.orange,
+              icon: Icon(Icons.person, color: Colors.black.withOpacity(.7)),
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return RouteWhereYouGo();
+                      return UserInfo();
                     },
                   ),
                 );
@@ -372,17 +382,6 @@ class _MyCustomUIState extends State<MyCustomUI>
             ),
           ),
           SizedBox(height: _w / 14),
-          Container(
-            width: _w / 1.15,
-            child: Text(
-              'Hello User',
-              textScaleFactor: 1.4,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(.7),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -522,6 +521,33 @@ class RouteWhereYouGo extends StatelessWidget {
         centerTitle: true,
         shadowColor: Colors.black.withOpacity(.5),
         title: Text('Cards Info Page',
+            style: TextStyle(
+                color: Colors.black.withOpacity(.7),
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1)),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black.withOpacity(.8),
+          ),
+          onPressed: () => Navigator.maybePop(context),
+        ),
+      ),
+    );
+  }
+}
+
+class UserInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        elevation: 50,
+        centerTitle: true,
+        shadowColor: Colors.black.withOpacity(.5),
+        title: Text('User Info Page',
             style: TextStyle(
                 color: Colors.black.withOpacity(.7),
                 fontWeight: FontWeight.w600,
