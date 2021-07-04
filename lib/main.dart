@@ -1,19 +1,30 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
-import 'package:trading_app/homepage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:trading_app/cubit/posts_cubit.dart';
+import 'package:trading_app/services/post_repository.dart';
+import 'package:trading_app/services/posts_service.dart';
+
+import 'screens/feedpage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(PaginationApp(
+    repository: PostsRepository(PostsService()),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class PaginationApp extends StatelessWidget {
+  final PostsRepository repository;
+
+  const PaginationApp({Key? key, required this.repository}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(),
-      home: MyCustomUI(),
+      home: BlocProvider(
+        create: (context) => PostsCubit(repository),
+        child: PostsView(),
+      ),
     );
   }
 }
