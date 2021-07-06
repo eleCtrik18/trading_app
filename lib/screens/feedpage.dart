@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:trading_app/screens/user_info.dart';
 
 import 'package:trading_app/services/post.dart';
 
@@ -52,14 +54,12 @@ class PostsView extends StatelessWidget {
                   icon: Icon(Icons.person, color: Colors.black.withOpacity(.7)),
                   onPressed: () {
                     HapticFeedback.lightImpact();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return
-                    //     }
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return UserInfo();
+                      }),
+                    );
                   },
                 ),
                 Text('  '),
@@ -67,8 +67,38 @@ class PostsView extends StatelessWidget {
             ),
           ),
         ),
-        drawer: Drawer(),
-        body: _postList());
+        drawer: Drawer(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 47, 0, 0),
+            child: Column(children: [
+              ListTile(
+                leading: Icon(Icons.add),
+                title: Text(
+                  'Card manager',
+                ),
+                trailing: Icon(Icons.done),
+                subtitle: Text('This is subtitle'),
+                selected: true,
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.add),
+                title: Text(
+                  'XYZ',
+                  textScaleFactor: 1.5,
+                ),
+                trailing: Icon(Icons.done),
+                subtitle: Text('This is subtitle'),
+                selected: true,
+                onTap: () {},
+              ),
+            ]),
+          ),
+        ),
+        body: Stack(children: [
+          _postList(),
+          Container(alignment: Alignment.center, child: searchBar(context))
+        ]));
   }
 
   Widget _postList() {
@@ -98,7 +128,7 @@ class PostsView extends StatelessWidget {
                   .jumpTo(scrollController.position.maxScrollExtent);
             });
 
-            return _loadingIndicator();
+            return spinkit;
           }
         },
         separatorBuilder: (context, index) {
@@ -111,6 +141,11 @@ class PostsView extends StatelessWidget {
     });
   }
 
+  final spinkit = SpinKitRipple(
+    color: Colors.red,
+    size: 50.0,
+  );
+
   Widget _loadingIndicator() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -118,87 +153,113 @@ class PostsView extends StatelessWidget {
     );
   }
 
+  Future<void> loaderDialogNormal(BuildContext context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return Center(
+              child: Container(
+            width: 100.0,
+            height: 100.0,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+              ),
+            ),
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+              ),
+            ),
+          ));
+        });
+  }
+
   Widget _post(Post post, BuildContext context) {
     double _w = MediaQuery.of(context).size.width;
 
-    return Stack(children: [
-      Container(
-        padding: EdgeInsets.fromLTRB(_w / 20, _w / 5, _w / 20, _w / 20),
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.fromLTRB(_w / 20, _w / 5, _w / 20, _w / 20),
 
-        child: Container(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 30),
+      child: Container(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 30),
+          ),
+          Container(
+            width: _w / 1.16,
+            height: _w / 0.4,
+            decoration: BoxDecoration(
+              color: Color(0xffFFE5B4),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(.05),
+                    blurRadius: 90,
+                    offset: Offset(2, 2)),
+              ],
             ),
-            Container(
-              width: _w / 1.16,
-              height: _w / 0.4,
-              decoration: BoxDecoration(
-                color: Color(0xffFFE5B4),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(.05),
-                      blurRadius: 90,
-                      offset: Offset(2, 2)),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: _w / 0.16,
-                    height: _w / 1.6,
-                    decoration: BoxDecoration(
-                      color: Color(0xff5C71F3),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(15)),
-                      child: Image.network(post.thumbnailUrl,
-                          fit: BoxFit.fill, width: _w / 1.36, height: _w / 2.6),
+            child: Column(
+              children: [
+                Container(
+                  width: _w / 0.16,
+                  height: _w / 1.6,
+                  decoration: BoxDecoration(
+                    color: Color(0xff5C71F3),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    height: _w / 6.2,
-                    width: _w / 1.36,
-                    padding: EdgeInsets.symmetric(horizontal: _w / 25),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          (post.title),
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(15)),
+                    child: Image.network(post.thumbnailUrl,
+                        fit: BoxFit.fill, width: _w / 1.36, height: _w / 2.6),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  height: _w / 6.2,
+                  width: _w / 1.36,
+                  padding: EdgeInsets.symmetric(horizontal: _w / 25),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        (post.title),
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(.8),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          (post.id.toString()),
                           style: TextStyle(
-                            color: Colors.black.withOpacity(.8),
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red.withOpacity(.7),
                           ),
                         ),
-                        // Text(
-                        //   ('SubInfo'),
-                        //   style: TextStyle(
-                        //     fontWeight: FontWeight.w600,
-                        //     color: Colors.black.withOpacity(.7),
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ]),
-        ),
-        // child: Image.network(
-        //   dogImages[index],
-        //   fit: BoxFit.fitWidth,
-        // ),
+          ),
+        ]),
       ),
-      Container(alignment: Alignment.center, child: searchBar(context))
-    ]);
+      // child: Image.network(
+      //   dogImages[index],
+      //   fit: BoxFit.fitWidth,
+      // ),
+    );
   }
 }
 
