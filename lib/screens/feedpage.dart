@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:trading_app/screens/card_manager.dart';
+import 'package:trading_app/screens/card_search.dart';
 import 'package:trading_app/screens/user_info.dart';
 
 import 'package:trading_app/services/post.dart';
@@ -25,6 +27,8 @@ class PostsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     setupScrollController(context);
     BlocProvider.of<PostsCubit>(context).loadPosts();
 
@@ -67,30 +71,58 @@ class PostsView extends StatelessWidget {
             ),
           ),
         ),
-        drawer: Drawer(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 47, 0, 0),
+        drawer: SafeArea(
+          child: Drawer(
             child: Column(children: [
               ListTile(
-                leading: Icon(Icons.add),
-                title: Text(
-                  'Card manager',
+                title: Container(
+                  height: h / 12.6,
+                  decoration: ShapeDecoration(
+                    color: Colors.greenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Card manager',
+                  ),
                 ),
-                trailing: Icon(Icons.done),
-                subtitle: Text('This is subtitle'),
-                selected: true,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return CardManager();
+                    }),
+                  );
+                },
               ),
               ListTile(
-                leading: Icon(Icons.add),
-                title: Text(
-                  'XYZ',
-                  textScaleFactor: 1.5,
+                title: Container(
+                  height: h / 12.6,
+                  decoration: ShapeDecoration(
+                    color: Colors.greenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Card Search',
+                  ),
                 ),
-                trailing: Icon(Icons.done),
-                subtitle: Text('This is subtitle'),
-                selected: true,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return CardSearch();
+                    }),
+                  );
+                },
               ),
             ]),
           ),
