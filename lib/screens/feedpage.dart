@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:trading_app/screens/card_manager.dart';
 import 'package:trading_app/screens/card_search.dart';
+import 'package:trading_app/screens/chat_screen.dart';
 import 'package:trading_app/screens/user_info.dart';
 
 import 'package:trading_app/services/post.dart';
@@ -120,6 +121,31 @@ class PostsView extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) {
                       return CardSearch();
+                    }),
+                  );
+                },
+              ),
+              ListTile(
+                title: Container(
+                  height: h / 12.6,
+                  decoration: ShapeDecoration(
+                    color: Colors.greenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Chat',
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return ChatsScreen();
                     }),
                   );
                 },

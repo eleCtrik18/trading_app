@@ -28,6 +28,8 @@ dependencies:
   flutter_spinkit: ^5.0.0
   carousel_slider: ^4.0.0
   flutter_chips_input: ^1.10.0
+  bubble: ^1.1.9+1
+  intl:
   
 
 
