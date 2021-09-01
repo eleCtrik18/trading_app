@@ -11,14 +11,17 @@ Project for #x
 - Cards 
 - Search Bar
 - Drawer
+
 #Card Manager
 - Auto rotating carousel slider 
 - Horizontally alligned DeckView
 - Minor UI elements
+
 #Card Search
 - Advanced Search Bar that converts keywords to input chips 
 - Horizontally alligned Listview
 - Minor UI elements
+
 #Chat Screen
 - Tab Screen Options 
 - Interactive Chat Heads
