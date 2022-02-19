@@ -26,6 +26,7 @@ Project for #x
 - Tab Screen Options 
 - Interactive Chat Heads
 - Modern looking Chat Screen with Interactive UI
+- For Chat Components go to screens->chat_components
 
 
 
