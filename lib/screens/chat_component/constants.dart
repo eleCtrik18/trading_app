@@ -1,3 +1,5 @@
+//Providing a name to color components and padding value
+
 import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color(0xFF00BF6D);
