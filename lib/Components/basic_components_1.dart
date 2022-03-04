@@ -26,7 +26,7 @@ header1() {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               tooltip: 'Settings',
-              icon: Icon(Icons.text_fields,
+              icon: Icon(Icons.text_fields,//Icon Property
                   size: _w / 17, color: Colors.black.withOpacity(.6)),
               onPressed: () {},
             ),
@@ -35,3 +35,5 @@ header1() {
       ),
     );
   }
+//This Code creates a rounded button/card that can be used to display an icon or an option.
+//By changing icon property we can have our custom button
