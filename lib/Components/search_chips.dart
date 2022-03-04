@@ -1,4 +1,9 @@
 //It Requires a package called Flutter Chip 
+//A material design chip.
+
+//Chips are compact elements that represent an attribute, text, entity, or action.
+
+//Supplying a non-null onDeleted callback will cause the chip to include a button for deleting the chip.
 
 
 Widget searchBar(BuildContext context) { //Creating Mock Search Items for demonstration
