@@ -1,7 +1,7 @@
 //It Requires a package called Flutter Chip 
 
 
-Widget searchBar(BuildContext context) {
+Widget searchBar(BuildContext context) { //Creating Mock Search Items for demonstration
     const mockResults = <AppProfile>[
       AppProfile('John Doe', 'jdoe@flutter.io',
           'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX4057996.jpg'),
@@ -50,7 +50,7 @@ Widget searchBar(BuildContext context) {
                 ),
               ],
             ),
-            child: ChipsInput(
+            child: ChipsInput( //Inbuilt object of Package Flutter Chip
               autocorrect: true,
               key: _chipKey,
               keyboardAppearance: Brightness.dark,
