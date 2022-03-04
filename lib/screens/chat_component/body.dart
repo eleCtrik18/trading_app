@@ -1,3 +1,6 @@
+//Main Body of the widget calling chat component functions
+
+
 import 'package:flutter/material.dart';
 import 'package:trading_app/screens/chat_component/constants.dart';
 
