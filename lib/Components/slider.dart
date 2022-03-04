@@ -9,9 +9,10 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
 ];
+// Demo images fetched from network to be displayed into cards
 
 class Cardslider extends StatelessWidget {
-  final List<Widget> imageSliders = imgList
+  final List<Widget> imageSliders = imgList //Mapping the fetched images to Container 
       .map(
         (item) => Container(
           child: Container(
@@ -54,7 +55,7 @@ class Cardslider extends StatelessWidget {
           ),
         ),
       )
-      .toList();
+      .toList(); //Finally Converting it into a List to be used further in Container
   @override
   Widget build(BuildContext context) {
     return Container(
