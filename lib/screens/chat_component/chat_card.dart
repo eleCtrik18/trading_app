@@ -1,3 +1,6 @@
+//Chat Screen. It creates a Chat UI screen with Lists of people you had a text chat
+
+
 import 'package:flutter/material.dart';
 import 'package:trading_app/screens/chat_component/constants.dart';
 
@@ -79,6 +82,8 @@ class ChatCard extends StatelessWidget {
     );
   }
 }
+
+//Mocked Chat Data item
 
 class Chat {
   final String name, lastMessage, image, time;
